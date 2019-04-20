@@ -10,6 +10,8 @@ AUTHOR_ID = "1471";
 
 SIMULATE_MB_PRESSED = false;
 
+SIZE_LIMIT = 99000;
+
 //// CRYPTO
 
 function generateSecurePassword(length) {
@@ -134,7 +136,7 @@ function onChooseFiles(files) {
     if (typeof window.FileReader !== 'function')
         throw ("The file API isn't supported on this browser.");
 
-    files = filterFilesBySize(files, 99000);
+    files = filterFilesBySize(files, SIZE_LIMIT);
 
     clearUploadButton();
     readMultipleFiles(files, function (doneFiles, fileErrors) {
@@ -150,10 +152,27 @@ function onChooseFiles(files) {
 }
 
 function filterFilesBySize(files, maxSize) {
-    results = []
+    var results = []
+    var filtered = []
     for (var i = 0; i < files.length; i++)
         if (files[i].size <= maxSize)
             results.push(files[i]);
+        else
+            filtered.push(files[i]);
+
+    var flen = filtered.length
+    if(flen > 0){
+        var fileNames = filtered.map(i=>i.name).join('\n');
+
+        var message = "Some files were too big."
+            + "\nMaximum Size = " + maxSize + "B"
+            + "\n" + flen + " file(s) skipped"
+            + "\n--------------"
+            + "\n" + fileNames;
+
+        alert(message);
+    }
+
     return results;
 }
 
