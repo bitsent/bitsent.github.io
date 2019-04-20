@@ -1,0 +1,9 @@
+Encrypted
+http://bitsent.net/link.html#fname=LINK%20by%20bitsent.txt&txid=59c960097737fb3937398e92a17c8ae27c5df56f64a12309847400f9c7026135&pwd=MHZjYXJkR1QweXZNVEFIcXFocVpIUT09.2A9LXJmVaznZeF3pX4JfeIsEIMjnIH9nOUjoN7fKsII=.WHChRYdFcA6AiAjQ
+
+Binary
+http://bitsent.net/link.html#txid=7190087cae7aba0a25837b684de3e2f75e6ef1dd6668740e94c92833c4e0dc08
+
+Standard
+http://bitsent.net/link.htmls#txid=46d644282c3f8c80a6228ec00c9871bffe0b00c4894922ca302738a41f4012d3
+
