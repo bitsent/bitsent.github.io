@@ -5,7 +5,7 @@ uploadedFiles = [];
 BASE_URL = "https://bitsent.github.io/link.html";
 
 TAKE_AUTHOR_FEE = true;
-AUTHOR_FEE = "0.05";
+AUTHOR_FEE = "0.03";
 AUTHOR_ID = "1471";
 
 SIMULATE_MB_PRESSED = false;
