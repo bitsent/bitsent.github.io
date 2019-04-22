@@ -507,13 +507,29 @@ function toFormattedString(date) {
     ].join('');
 }
 
-//// AUTO PARSE URL
+//// AUTO RUN
 
-var paramsDict = parseHashQuery()
-if (Object.keys(paramsDict).some(i => i)) {
-    document.getElementById("txid").value = paramsDict.txid || "";
-    document.getElementById("pwd").value = paramsDict.pwd || "";
-    document.getElementById("fname").value = paramsDict.fname || "";
-    if (paramsDict.txid != undefined)
-        document.getElementById("dwnBtn").click();
+if (crypto == undefined || crypto.subtle == undefined){
+    alert("The WebCrypto API is not avalable."
+        + "\nPossible reasons:"
+        + "\n"
+        + "\n - Not using HTTP over SSL?"
+        + "\n       (Check the website address - it must start with 'https://')"
+        + "\n"
+        + "\n - Unsupported browser?"
+        + "\n       (Not all browsers support WebCrypto API. We reccomend Firefox or Chrome.)"
+        + "\n"
+        + "\n - Old browser version?"
+        + "\n       (Consider updating your browser. Newer versions might support WebCrypto API)"
+        + "\n");
+}
+else {
+    var paramsDict = parseHashQuery()
+    if (Object.keys(paramsDict).some(i => i)) {
+        document.getElementById("txid").value = paramsDict.txid || "";
+        document.getElementById("pwd").value = paramsDict.pwd || "";
+        document.getElementById("fname").value = paramsDict.fname || "";
+        if (paramsDict.txid != undefined)
+            document.getElementById("dwnBtn").click();
+    }
 }
