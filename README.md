@@ -10,3 +10,5 @@ Simply Upload the files and Share the links. There is no server. Everything happ
    - Private : (client side encryption ensures the safety of your data)
    - Permanent : (data is stored onchain, immutable forever)
    - Simple : (sharing the data is as simple as clicking a link)
+
+Important -  to protect your privacy, only connect to BitSent.Net via HTTPS
