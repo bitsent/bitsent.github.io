@@ -2,7 +2,7 @@
 
 uploadedFiles = [];
 
-BASE_URL = "https://bitsent.github.io/link.html";
+BASE_URL = "https://bitsent.net/link.html";
 
 TAKE_AUTHOR_FEE = true;
 AUTHOR_FEE = "0.03";
