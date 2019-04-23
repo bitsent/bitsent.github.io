@@ -1,17 +1,9 @@
-header a:hover .hovUndrLn {
-    text-decoration: underline;
-}
-
-
 body {
-    text-align: center;
     background: linear-gradient(to right, #ffcf75, #f5deb3, white, #f5deb3, #ffcf75);
 }
 
 #wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-flow: row wrap;
+    text-align: center;
 }
 
 .mb {
@@ -36,7 +28,7 @@ body {
     flex:1;
     text-align: center;
     border-radius: 3em;
-    min-width: 30%;
+    width: 100%;
 }
 
 .impactFont {
@@ -53,7 +45,7 @@ body {
     width: 80%;
     height: 10em;
     padding-top: 3em;
-    background-image:url('dropzone.png');
+    background-image:url('/img/dropzone.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -67,7 +59,7 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    margin: 5% 10% 2% 10%;
+    width: 100%;
 }
 
 .form > * {
@@ -79,14 +71,6 @@ body {
 button:hover{
     background: azure;
 }
-
-@media screen and (orientation: portrait) {
-    #wrapper {
-        flex-direction: column;
-        flex-flow: column;
-    }
-}
-
 
 /* ********** */
 /*   TABLES   */
@@ -184,72 +168,4 @@ table tr:hover td {
     background: #f2f2f2;
     background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
     background: -moz-linear-gradient(top, #f2f2f2, #f0f0f0);
-}
-
-/* ********** */
-/* ANIMATIONS */
-/* ********** */
-
-
-header a {
-    -webkit-animation: shadow 5s infinite;
-    animation: shadow 5s infinite;
-}
-
-@-webkit-keyframes shadow {
-    50% {
-        text-shadow: 0 0 0.5em aqua
-    }
-}
-
-@keyframes shadow {
-    50% {
-        text-shadow: 0 0 0.5em aqua
-    }
-}
-
-#logo {
-    -webkit-animation: logoAnimation 10s ease 0s infinite normal;
-    animation: logoAnimation 10s ease 0s infinite normal;
-}
-
-@-webkit-keyframes logoAnimation {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    2% {
-        -webkit-transform: rotate(-10deg);
-        transform: rotate(-10deg);
-    }
-    4% {
-        -webkit-transform: rotate(10deg);
-        transform: rotate(10deg);
-    }
-    8% {
-        -webkit-transform: rotate(-10deg);
-        transform: rotate(-10deg);
-    }
-    100% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-}
-
-@keyframes logoAnimation {
-    0% {
-        transform: rotate(0deg);
-    }
-    2% {
-        transform: rotate(-10deg);
-    }
-    4% {
-        transform: rotate(10deg);
-    }
-    8% {
-        transform: rotate(-10deg);
-    }
-    100% {
-        transform: rotate(0deg);
-    }
 }

@@ -1,0 +1,54 @@
+  <link rel="stylesheet" href="/css/link.css">
+  <div id="wrapper">
+    <div id="upload">
+      <h1>Upload Files</h1>
+      <span>Upload files to the page (where they get encrypted) and send them to the blockchain. (max: 100
+        KB/file)</span>
+      <div class="form">
+        <div id="drop_zone" ondragover="dragover(event);" ondragenter="dragenter(event);"
+          ondragleave="dragleave(event);" ondrop="onChooseFiles(getDroppedFiles(event));"
+          onclick="document.getElementById('fileUpload').click()">
+          <input type="file" multiple id="fileUpload" style="display:none;" onchange="onChooseFiles(this.files)" />
+        </div>
+        <div>
+          <div style="margin-bottom:3em;">
+            <input type="checkbox" name="encrypt" checked id="encryptCheckbox" onchange="reloadMB()">
+            <label for="encryptCheckbox">
+              Encrypt the files?
+            </label>
+          </div>
+          <div id='uploadedFiles'></div>
+          <div id='uploadButtonContainer'></div>
+        </div>
+        <div id="uploadTableContainer"></div>
+      </div>
+    </div>
+    <div id="download">
+      <h1>Download Files</h1>
+      <div>
+        <div class="form">
+          <label for="txid">Transaction ID:</label>
+          <input type="text" id="txid">
+          <label for="pwd">Decryption Password:</label>
+          <input type="text" id="pwd">
+          <label for="fname">File Name:</label>
+          <input type="text" id="fname">
+          ---
+          <button id="dwnBtn" onclick='onDownloadBtnClick()'>Download</button>
+        </div>
+        <div id="downloadTableContainer"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <p>made by <a target="_blank" rel="noopener noreferrer" href="http://handcash.to/$bitcoinsofia">$BitcoinSofia</a>
+  </p>
+
+  <a target="_blank" rel="noopener noreferrer" href="#fname=LINK_by_bitsent.txt&txid=59c960097737fb3937398e92a17c8ae27c5df56f64a12309847400f9c7026135&pwd=MHZjYXJkR1QweXZNVEFIcXFocVpIUT09.2A9LXJmVaznZeF3pX4JfeIsEIMjnIH9nOUjoN7fKsII=.WHChRYdFcA6AiAjQ"
+    style="color:rgba(128, 128, 128, 0.37)">
+    Click Here to test with the default values.</a>
+
+  <script src="https://www.moneybutton.com/moneybutton.js"></script>
+  <script src="/js/link-dropzone.js"></script>
+  <script src="/js/link.js"></script>
