@@ -22,13 +22,11 @@ body {
 #wrapper > div {
     margin: 1em;
     padding: 1em;
-    display: inline-block;
     border: 1px solid rgba(0, 0, 0, 0.150);
     background-color: rgba(255, 255, 255, 0.150);
     flex:1;
     text-align: center;
     border-radius: 3em;
-    width: 100%;
 }
 
 .impactFont {
