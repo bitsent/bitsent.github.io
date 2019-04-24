@@ -17,7 +17,7 @@ baseurl: ""
 title: BitSent
 
 # Short description of your site
-description: Awesome tools for the MetaNet
+description: Tools for the MetaNet
 
 # --- Navigation bar options --- #
 
@@ -34,7 +34,7 @@ avatar: "/img/logo.png"
 
 # If you want to have an image logo in the top-left corner instead of the title text,
 # then specify the following parameter
-title-img: "/img/logo-text.png"
+# title-img: "/img/logo-text.png"
 
 # --- Background colour/image options --- #
 
