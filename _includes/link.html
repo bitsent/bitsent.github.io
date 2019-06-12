@@ -1,4 +1,14 @@
   <link rel="stylesheet" href="/css/link.css">
+  <p style="text-align: center; width:70%; margin:auto;">
+    LINKs are encrypted files uploaded to the Bitcoin SV blockchain, which are easily accessible with a simple click.
+    <br><br>
+    <strong style="display: list-item;"> The purpose of LINK is File Sharing.</strong>
+    <br>
+    Share immutable information with anyone, anywhere, by simply sending them a LINK to click on.
+    <br>
+    Nobody else should be able to see your data.
+  </p>
+
   <div id="wrapper">
     <div id="upload">
       <h1>Upload Files</h1>
@@ -23,22 +33,33 @@
         <div id="uploadTableContainer"></div>
       </div>
     </div>
-    <div id="download">
-      <h1>Download Files</h1>
-      <div>
-        <div class="form">
-          <label for="txid">Transaction ID:</label>
-          <input type="text" id="txid">
-          <label for="pwd">Decryption Password:</label>
-          <input type="text" id="pwd">
-          <label for="fname">File Name:</label>
-          <input type="text" id="fname">
-          ---
-          <button id="dwnBtn" onclick='onDownloadBtnClick()'>Download</button>
-        </div>
-        <div id="downloadTableContainer"></div>
-      </div>
 
+    <style>
+      .accordion.active .panel { display:block; }
+      .accordion .panel { display:none; }
+    </style>
+    
+    <div class="accordion">
+      <button onclick="this.parentElement.classList.toggle('active')"> ADVANSED SETTINGS </button>
+      <div class="panel">
+        <div id="download">
+          <h1>Download Files</h1>
+          <div>
+            <div class="form">
+              <label for="txid">Transaction ID:</label>
+              <input type="text" id="txid">
+              <label for="pwd">Decryption Password:</label>
+              <input type="text" id="pwd">
+              <label for="fname">File Name:</label>
+              <input type="text" id="fname">
+              ---
+              <button id="dwnBtn" onclick='onDownloadBtnClick()'>Download</button>
+            </div>
+            <div id="downloadTableContainer"></div>
+          </div>
+
+        </div>
+      </div>
     </div>
   </div>
 

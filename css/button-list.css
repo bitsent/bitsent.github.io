@@ -1,0 +1,37 @@
+.buttonList {
+    display: inline-flex;
+    margin: auto;
+    height: auto;
+    width: auto;
+    text-align: center;
+    flex-wrap: wrap;
+  }
+
+  .buttonList .buttonListItem {
+    margin: 1rem;
+    display: inline-block;
+    min-width: 10rem;
+    height: 10rem;
+    padding-top: 3rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    font-size: 3rem;
+    background-color: rgb(255, 196, 86);
+    border: 0.3rem ridge orange;
+    text-align: center;
+    border-radius: 3rem;
+    overflow: hidden;
+  }
+  
+  .buttonList:hover .buttonListItem {
+    filter:blur(3px);
+    opacity:.5;
+    transform: scale(.9);
+    box-shadow:none;
+  }
+  .buttonList:hover .buttonListItem:hover {
+    transform:scale(1);
+    filter:blur(0px);
+    opacity:1;
+    box-shadow:0 8px 20px 0px rgba(0,0,0,0.125);
+  }
