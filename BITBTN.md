@@ -33,7 +33,7 @@ btn = bitbtn.create(
     {
         label: "Pay!",
         address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
-        amount: 0.1111111111111111111111,
+        amount: 1.99,
         currency: "USD",
         onError: function (error) { console.log(error); },
     });
