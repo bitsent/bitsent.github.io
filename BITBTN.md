@@ -39,7 +39,9 @@ btn = bitbtn.create(
     });
 ```
 
-![BTN](https://raw.githubusercontent.com/bitsent/BitBtn/master/btn.PNG)
+# Example
+
+{%- include example-bitbtn.html -%}
 
 # How it works
 
@@ -59,4 +61,3 @@ btn = bitbtn.create(
 - While using BIP21, the button CAN NOT check if the payments were successful (due to race conditions).
     - Please perform such **checks in your own code** (by generating a separate bitcoin address for each user).
     - This is a temporary problem, and will be resolved when the **Output URI BIP** gets fully implemented.
-
