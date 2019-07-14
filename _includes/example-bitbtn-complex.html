@@ -1,0 +1,32 @@
+
+<div>
+    <div id="bitbtn-container-complex"> </div>
+    <script>
+        btn = bitbtn.create(
+            document.getElementById("bitbtn-container-complex"),
+            {
+                label: "Complex Pay!",
+                outputs: [
+                    {
+                        address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                        amount: 1,
+                        currency: "USD",
+                    },
+                    {
+                        script: bitbtn.scripter.p2pkh("1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh"),
+                        amount: 0.247,
+                        currency: "USD"
+                    },
+                    {
+                        script: bitbtn.scripter.op_return(
+                            bitbtn.scripter.str2hex([
+                                "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
+                                "BitBtn is Awesome!"
+                            ])),
+                        amount: 0
+                    },
+                ],
+                onError: function (error) { console.log(error); },
+            });
+    </script>
+</div>

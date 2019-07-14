@@ -1,0 +1,16 @@
+
+<div>
+    <div id="bitbtn-container-bip21"> </div>
+    <script>
+        btn = bitbtn.create(
+            document.getElementById("bitbtn-container-bip21"),
+            {
+                label: "Pay!",
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 1.247,
+                currency: "USD",
+                bip21: true,
+                onError: function (error) { console.log(error); },
+            });
+    </script>
+</div>
