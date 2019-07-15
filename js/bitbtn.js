@@ -891,8 +891,9 @@ bitbtn = (function bitbtn() {
         }
 
         var intentCta = function (appLink) {
-            var intentUri = "intent://m/#Intent;scheme=" + appLink +
-                ";end"; // ";package=" + Settings.androidAppId +";end";
+            var linkScheme = appLink.substr(0, appLink.indexOf(':'));
+            var linkPath = appLink.substr(appLink.indexOf(':')+1);
+            var intentUri = "intent:" + linkPath + "#Intent;scheme=" + linkScheme + ";end";
             direct(intentUri)
         }
 
