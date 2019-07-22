@@ -24,7 +24,9 @@ description: Tools for the MetaNet
 # List of links in the navigation bar
 navbar-links:
   LINK: "link.html"
-  BitBtn: "bitbtn.html"
+  BitBtn: 
+    - BitBtn: "bitbtn.html"
+    - Btn Page: "btn_page.html"
   More:
     - BitcoinSofia: "http://bitcoinsofia.com/"
     - PipeCash: "http://pipe.cash/"

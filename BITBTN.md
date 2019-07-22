@@ -52,6 +52,19 @@ btn = bitbtn.create(
 
 {%- include example-bitbtn-simple.html -%}
 
+# Supported Currencies
+
+BitBtn uses CoinGecko for price discovery. It supports many FIAT currencies:
+
+"usd", "aed", "ars", "aud", "bdt", "bhd", "bmd",
+"brl", "cad", "chf", "clp", "cny", "czk", "dkk",
+"eur", "gbp", "hkd", "huf", "idr", "ils", "inr",
+"jpy", "krw", "kwd", "lkr", "mmk", "mxn", "myr",
+"nok", "nzd", "php", "pkr", "pln", "rub", "sar",
+"sek", "sgd", "thb", "try", "twd", "uah", "vef",
+"vnd", "zar", "xdr", "xag", "xau"
+
+And of course "BSV" is supported too.
 
 # Advanced Usage
 
