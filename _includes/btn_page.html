@@ -136,10 +136,15 @@ var url = "https://bitsent.net/btn_page#" + b64;
         } else {
           j = {
             label: "BitBtn Payment!",
-            bip21: true,
+            bip21: false,
             outputs: [{
                 address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
-                amount: 1,
+                amount: 0.5,
+                currency: "USD",
+              },
+              {
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 0.5,
                 currency: "USD",
               }
             ],
