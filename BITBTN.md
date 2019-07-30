@@ -26,13 +26,13 @@ Get a released version from NPM : [![NPM version](https://badge.fury.io/js/bitbt
 
 Just import the minified version of the code in your website.
 
-Everything is contained in 1 file (smaller than 50KB)
+Everything is contained in one small JavaScript file
 
 ```html
     <script src="bitbtn.min.js"></script>
 ```
 
-<script src="js/bitbtn.min.js"></script>
+<script src="https://raw.githack.com/bitsent/BitBtn/master/src/bitbtn.js"></script>
 
 # Usage
 
