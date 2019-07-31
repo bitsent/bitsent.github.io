@@ -1,0 +1,89 @@
+<div style="text-align:center;">
+
+    <form name="postTargets" id="postTargets">
+        <input type="radio" name="postTarget" onclick="updateTarget()" value="b" id="check-B" checked>
+        <label for="check-B">Post to B://</label>
+        <br>
+        <input type="radio" name="postTarget" onclick="updateTarget()" value="m" id="check-memo" >
+        <label for="check-memo">Post to Memo.SV</label>
+    </form>
+    <hr>
+    <input type="checkbox" id="check-006a"> <label for="check-006a">OP_FALSE + OP_RETURN</label> <br>
+
+    <textarea name="text-area" id="text-area" rows="10" style="width:100%; max-width:100%;"></textarea>
+    <div id="btn-area">
+        Just write your message.
+    </div>
+    <script src="https://raw.githack.com/bitsent/BitBtn/master/src/bitbtn.js"></script>
+
+    <script>
+        var textarea = document.getElementById("text-area");
+        var btnarea = document.getElementById("btn-area");
+
+        var postTarget = "b";
+        var op_falseIncluded = false;
+
+        textarea.oninput = updateBtn;
+
+
+        document.getElementById("check-006a").onchange = function () {
+            op_falseIncluded = this.checked;
+            updateBtn();
+        };
+
+        function updateTarget() {
+            postTarget = document.postTargets.postTarget.value;
+            updateBtn();
+        }
+
+        function logError(error) {
+            var errMsg = document.createElement("p");
+            errMsg.style.color = "red";
+            errMsg.style.display = "list-item";
+            errMsg.append(error);
+
+            btnarea.appendChild(errMsg);
+        }
+
+        function updateBtn() {
+            try {
+                var newText = textarea.value;
+                btnarea.innerHTML = "";
+                if (newText === "")
+                    throw "Text area cannot be empty!";
+
+                var outputs = []
+                if (postTarget === "b")
+                    outputs.push({
+                        "script": bitbtn.scripter.op_return(
+                            bitbtn.scripter.str2hex([
+                                "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
+                                newText,
+                                "text/plain",
+                            ]), op_falseIncluded)
+                    });
+                if (postTarget === "m")
+                    outputs.push({
+                        "script": bitbtn.scripter.op_return([
+                            "6d02",
+                            bitbtn.scripter.str2hex(newText)
+                        ], op_falseIncluded)
+                    });
+
+                btn = bitbtn.create(
+                    btnarea, {
+                        label: "Write to BSV!",
+                        walletLabel: "OP_Return Transaction",
+                        walletMessage: newText.length <= 30 ? newText : newText.substring(0, 30) + "...",
+                        outputs: outputs,
+                        onError: function (error) {
+                            logError(error)
+                        },
+                    });
+            } catch (e) {
+                logError(e);
+                throw e;
+            }
+        };
+    </script>
+</div>
