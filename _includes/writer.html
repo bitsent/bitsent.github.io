@@ -1,7 +1,10 @@
 <div style="text-align:center;">
 
     <form name="postTargets" id="postTargets">
-        <input type="radio" name="postTarget" onclick="updateTarget()" value="b" id="check-B" checked>
+        <input type="radio" name="postTarget" onclick="updateTarget()" value=" " id="check-direct" checked>
+        <label for="check-direct">Just Post</label>
+        <br>
+        <input type="radio" name="postTarget" onclick="updateTarget()" value="b" id="check-B">
         <label for="check-B">Post to B://</label>
         <br>
         <input type="radio" name="postTarget" onclick="updateTarget()" value="m" id="check-memo" >
@@ -20,7 +23,7 @@
         var textarea = document.getElementById("text-area");
         var btnarea = document.getElementById("btn-area");
 
-        var postTarget = "b";
+        var postTarget = " ";
         var op_falseIncluded = false;
 
         textarea.oninput = updateBtn;
@@ -53,6 +56,11 @@
                     throw "Text area cannot be empty!";
 
                 var outputs = []
+                if (postTarget === " ")
+                    outputs.push({
+                        "script": bitbtn.scripter.op_return(
+                            bitbtn.scripter.str2hex(newText), op_falseIncluded)
+                    });
                 if (postTarget === "b")
                     outputs.push({
                         "script": bitbtn.scripter.op_return(
@@ -80,6 +88,11 @@
                             logError(error)
                         },
                     });
+
+                var input = document.createElement("input");
+                input.value = outputs[0].script;
+                btnarea.appendChild(input);
+                
             } catch (e) {
                 logError(e);
                 throw e;
