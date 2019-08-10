@@ -23,8 +23,10 @@ description: Tools for the MetaNet
 
 # List of links in the navigation bar
 navbar-links:
-  LINK: "link.html"
-  Writer: "writer.html"
+  OP_RETURN:
+    - Writer: "writer.html"
+    - B-Kitten: "bkitten.html"
+    - LINK: "link.html"
   BitBtn: 
     - BitBtn: "bitbtn.html"
     - Btn Page: "btn_page.html"
