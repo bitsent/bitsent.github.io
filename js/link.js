@@ -4,7 +4,7 @@ uploadedFiles = [];
 
 BASE_URL = "https://bitsent.net/link.html";
 
-TAKE_AUTHOR_FEE = true;
+TAKE_AUTHOR_FEE = false;
 AUTHOR_FEE = "0.03";
 AUTHOR_ID = "1471";
 
