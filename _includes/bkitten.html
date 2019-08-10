@@ -180,7 +180,7 @@
             document.getElementById('requiredTxns').innerText = requiredTxns;
             document.getElementById('cost').innerText = cost;
             document.getElementById('uploadButton').disabled = requiredTxns > readyUtxos.length;
-            document.getElementById('btnValue').value = cost;
+            document.getElementById('btnValue').value = cost + (splitValue / 100000000);
             generateBitBtn();
         }
 
