@@ -32,7 +32,13 @@ Everything is contained in one small JavaScript file
     <script src="bitbtn.min.js"></script>
 ```
 
-<script src="https://raw.githack.com/bitsent/BitBtn/master/src/bitbtn.js"></script>
+Alternatively you can import from jsDelivr
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
+```
+
+<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
 
 # Usage
 
