@@ -13,8 +13,8 @@
     min-width: 10rem;
     padding: 2rem;
     font-size: 2rem;
-    background-color: rgb(255, 196, 86);
-    border: 0.3rem ridge orange;
+    background-color: #fff7e9;
+    border: 0.3rem ridge #fff0d7;
     text-align: center;
     overflow: hidden;
   }
