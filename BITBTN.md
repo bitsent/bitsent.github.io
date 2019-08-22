@@ -5,7 +5,7 @@ permalink: /bitbtn.html
 subtitle: A button that does Bitcoin stuff
 ---
 
-![logo](https://raw.githubusercontent.com/bitsent/BitBtn/master/logo-text-transperant.png)
+![logo](/img/logo-text-transperant.png)
 
 # BitBtn
 
