@@ -29,7 +29,7 @@ Just import the minified version of the code in your website.
 Everything is contained in one small JavaScript file
 
 ```html
-    <script src="bitbtn.min.js"></script>
+<script src="bitbtn.min.js"></script>
 ```
 
 Alternatively you can import from jsDelivr
