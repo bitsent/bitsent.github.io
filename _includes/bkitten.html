@@ -35,7 +35,7 @@
 
     <script src="/js/bsv.js"></script>
     <script src="/js/qrcode.js"></script>
-    <script src="https://raw.githack.com/bitsent/BitBtn/master/src/bitbtn.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
 
     <script>
         const API_KEY = "DAereavs1cmbu2E3LZkiT5j83DADdpqWkCiv2AKjKPXPXyyFFrWJX9HSELuY4pd8r";
@@ -180,7 +180,7 @@
             document.getElementById('requiredTxns').innerText = requiredTxns;
             document.getElementById('cost').innerText = cost;
             document.getElementById('uploadButton').disabled = requiredTxns > readyUtxos.length;
-            document.getElementById('btnValue').value = cost;
+            document.getElementById('btnValue').value = cost + (splitValue / 100000000);
             generateBitBtn();
         }
 
@@ -271,13 +271,13 @@
             reader.readAsArrayBuffer(file);
         }
 
-        async function broadcast(txnId) {
+        async function broadcastByIndex(txnId) {
             let txn = txns[txnId];
             if (!txn) {
                 console.error(`Missing Txn: ${txnId}`);
                 return;
             }
-            let res = await broadcastTx(txn);
+            let res = await broadcastTx(txn.hex);
             if (res.ok) {
                 txn.status = 1;
                 document.getElementById(txnId).innerHTML = `<a href="https://whatsonchain.com/tx/${txnId}" target="_blank">Success</a>`;
@@ -285,7 +285,7 @@
             else {
                 let error = await res.json();
                 txn.status = error.message.message;
-                document.getElementById(txnId).innerHTML = `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcast('${txnId}')">Retry</a>`;
+                document.getElementById(txnId).innerHTML = `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcastByIndex('${txnId}')">Retry</a>`;
             }
         }
 
@@ -300,7 +300,7 @@
                     status = `<a href="https://whatsonchain.com/tx/${hash}">Success</a>`;
                 }
                 else {
-                    status = `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcast('${hash}')">Retry</a>`;
+                    status = `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcastByIndex('${hash}')">Retry</a>`;
                 }
                 txnList.push(`<li><strong>${hash}</strong> - <span id="${hash}">${status}</span></li>`);
             }
@@ -312,7 +312,7 @@
             for (let [hash, txn] of Object.entries(txns)) {
                 if (txn.status == 1) continue;
                 console.log(`Broadcasting: ${hash}`);
-                await broadcast(hash);
+                await broadcastByIndex(hash);
             }
         }
 

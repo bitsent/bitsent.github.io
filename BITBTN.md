@@ -5,7 +5,7 @@ permalink: /bitbtn.html
 subtitle: A button that does Bitcoin stuff
 ---
 
-![logo](https://raw.githubusercontent.com/bitsent/BitBtn/master/logo-text-transperant.png)
+![logo](/img/logo-text-transperant.png)
 
 # BitBtn
 
@@ -15,10 +15,16 @@ License: **OPEN ONLY-BSV-SPECIFIC LICENSE**
 
 The button has two modes of work:
 
-Output URI ([link](https://github.com/Siko91/URI-BIPs/blob/master/%5BDraft%5D%20bip-bitcoinsofia-output_uri.mediawiki))
+Output URI ([link](https://github.com/Siko91/URI-BIPs/blob/master/%5BAccepted%5D%20bip-bitcoinsofia-output_uri.mediawiki))
 and BIP21 ([link](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki))
 
 Output URI is the default.
+
+# Demonstration
+
+In this short video the full text of "Tao Te Ching" is uploaded on the blockchain without effort.
+
+<iframe width="500" height="900" src="https://www.youtube.com/embed/-qlGAjbrATY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Importing
 
@@ -29,10 +35,16 @@ Just import the minified version of the code in your website.
 Everything is contained in one small JavaScript file
 
 ```html
-    <script src="bitbtn.min.js"></script>
+<script src="bitbtn.min.js"></script>
 ```
 
-<script src="https://raw.githack.com/bitsent/BitBtn/master/src/bitbtn.js"></script>
+Alternatively you can import from jsDelivr
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
+```
+
+<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
 
 # Usage
 

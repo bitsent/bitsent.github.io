@@ -17,26 +17,57 @@ baseurl: ""
 title: BitSent
 
 # Short description of your site
-description: Tools for the MetaNet
+description: Bitcoin Tools
 
 # --- Navigation bar options --- #
 
 # List of links in the navigation bar
-navbar-links:
-  OP_RETURN:
-    - Writer: "writer.html"
-    - B-Kitten: "bkitten.html"
-    - LINK: "link.html"
-  BitBtn: 
-    - BitBtn: "bitbtn.html"
-    - Btn Page: "btn_page.html"
-  More:
-    - BitcoinSofia: "http://bitcoinsofia.com/"
-    - PipeCash: "http://pipe.cash/"
+# navbar-links:
+#   OP_RETURN:
+#     - Writer: "writer.html"
+#     - B-Kitten: "bkitten.html"
+#     - LINK: "link.html"
+#   BitBtn: 
+#     - BitBtn: "bitbtn.html"
+#     - Btn Page: "btn_page.html"
+#   More:
+#     - BitcoinSofia: "http://bitcoinsofia.com/"
+#     - PipeCash: "http://pipe.cash/"
+
+project-links:
+- group-name: OP_RETURN
+  links:
+  - href: /writer.html
+    title-html: Writer
+    description-html: Write text to Memo.SV or B://
+  - href: /bkitten.html
+    title-html: B-Kitten
+    description-html: Upload big files with the BCAT protocol
+  - href: /link.html
+    title-html: LINK
+    description-html: Send encripted immutable files that open with 1 click of a link
+- group-name: BitBtn
+  links:
+  - href: /bitbtn.html
+    title-html: "<img src='/img/bitbtn-logo-text-transperant.png'/>"
+    description-html: A web button that generates Bitcoin transactions and sends them
+      to your wallet
+  - href: /btn_page.html
+    title-html: Btn Page
+    description-html: A landing page, prompting for a transaction. Highly customizable.
+- group-name: External
+  links:
+  - href: http://bitcoinsofia.com/
+    title-html: BitcoinSofia
+    description-html: Practical Bitcoin Consulting
+  - href: http://pipecash.org/
+    title-html: The PipeCash Project
+    description-html: Automation with a pinch of Bitcoin
+
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
-avatar: "/img/logo.png"
+avatar: "/img/BitSentLogo-tr.png"
 
 # If you want to have an image logo in the top-left corner instead of the title text,
 # then specify the following parameter

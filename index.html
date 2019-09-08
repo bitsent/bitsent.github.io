@@ -1,23 +1,52 @@
 ---
 layout: page
 title: BitSent
-subtitle: Your toolkit for the MetaNet
+subtitle: Tools for Bitcoin
 use-site-title: true
 ---
 <link rel="stylesheet" href="/css/button-list.css">
 
+<!-- <h1>OP_RETURN:</h1>
 <div class="buttonList">
   <div class="buttonListItem" onclick="window.open('/link.html','_self');"> LINK </div>
   <div class="buttonListItem" onclick="window.open('/writer.html','_self');"> Writer </div>
-  <div class="buttonListItem" onclick="window.open('/bkitten.html','_self');"> B-Kitten </div>
-  <div class="buttonListItem" onclick="window.open('/bitbtn.html','_self');"> 
-    <img 
-      src="/img/bitbtn-logo-text-transperant.png" 
-      alt="BitBtn"
-      style="height: 1.6em;">
+  <div class="buttonListItem" onclick="window.open('/bkitten.html','_self');">
+    B-Kitten
+    <div style="display: inline-block;">(Big Files)</div>
+  </div>
+</div>
+<h1>BitBtn:</h1>
+<div class="buttonList">
+  <div class="buttonListItem" onclick="window.open('/bitbtn.html','_self');">
+    <img src="/img/bitbtn-logo-text-transperant.png" alt="BitBtn" style="height: 1.6em;">
   </div>
   <div class="buttonListItem" onclick="window.open('/btn_page.html','_self');"> BitBtn Page </div>
+</div> -->
+
+
+{% for group in site.project-links %}
+<h1>{{ group.group-name }}</h1>
+<div class="linkgroup">
+
+  <div class="buttonList">
+    {%- for link in group.links -%}
+    <div class="buttonListItem"
+      onclick="window.open('{{link.href}}','_self');">
+      <strong>{{link.title-html}}</strong>
+      <div>{{link.description-html}}</div>
+    </div>
+    {%- endfor -%}
+  </div>
 </div>
+{% endfor %}
+
+
+
+
+
+
+
+
 
 {% if paginator.total_pages > 1 %}
 <ul class="pager main-pager">
