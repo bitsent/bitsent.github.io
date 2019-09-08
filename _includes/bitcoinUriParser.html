@@ -1,0 +1,239 @@
+<script src="https://www.moneybutton.com/moneybutton.js"></script>
+<script src="https://one.relayx.io/embed.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
+
+<style>
+  .buttons-wrapper {
+    display: flex;
+  }
+  .button-container {
+    background-color: ghostwhite;
+    border: 1px solid lightgrey;
+    flex: 1;
+    height: 7em;
+    text-align: center;
+  }
+  #uriWarningMessage {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em;
+  }
+</style>
+
+<div id="uriWarningMessage"></div>
+
+<div class="buttons-wrapper">
+  <div id="moneybuttonContainer" class="button-container">
+    <br />
+    Loading MoneyButton...
+  </div>
+  <div id="relayoneContainer" class="button-container">
+    <br />
+    Loading Relay One...
+  </div>
+  <div id="bitbtnContainer" class="button-container">
+    <br />
+    Loading BitBtn...
+  </div>
+</div>
+
+<script>
+  const uriParser = (function() {
+    // the schemes are ordered - more strict to less strict
+    var schemes = {
+      "bip272+address": {
+        pathRegex: /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/,
+        required: ["sv", "r"]
+      },
+      bip272: {
+        pathRegex: /^$/,
+        required: ["sv", "r"]
+      },
+      bip21sv: {
+        pathRegex: /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/,
+        required: ["sv"]
+      },
+      bip21: {
+        pathRegex: /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/,
+        required: []
+      }
+    };
+
+    function findUriType(bPath, bParams) {
+      for (var sch in schemes) {
+        var pathMatch = schemes[sch].pathRegex.test(bPath);
+        var paramsMatch = schemes[sch].required.every(
+          p => bParams.get(p) !== null
+        );
+        if (pathMatch && paramsMatch) {
+          return sch;
+        }
+      }
+      return null;
+    }
+
+    function showWarnings(uriType) {
+      if (uriType === "bip272+address")
+        $("#uriWarningMessage")
+          .empty()
+          .append(
+            "Warning: It is not advisable to include an address in BIP-272 URIs"
+          );
+      if (uriType === "bip21")
+        $("#uriWarningMessage")
+          .empty()
+          .append(
+            "Warning: This might be a BTC link. It doesn't have the expected 'sv' parameter."
+          );
+      if (!(uriType in schemes))
+        $("#uriWarningMessage")
+          .empty()
+          .append("Warning: Unknown Bitcoin URI type.");
+    }
+
+    function showBip21(bPath, bParams) {
+      outputs = [
+        {
+          script: bitbtn.scripter.p2pkh(bPath),
+          amount: parseFloat(bParams.get("amount") || 0.001)
+        }
+      ];
+      makeMoneyButton(outputs);
+      makeRelayOneButton(outputs);
+      makeBitBtn(outputs);
+    }
+
+    function showBip272(bPath, bParams) {
+      alert("BIP-272 is not implemented yet");
+      //outputs = [
+      //  // TODO: Implement this;
+      //];
+      //makeMoneyButton(outputs);
+      //makeRelayOneButton(outputs);
+      //makeBitBtn(outputs);
+    }
+
+    function makeRelayOneButton(outputs) {
+      var config = {
+        disabled: false,
+        onPayment: arg => console.log("payment success", arg),
+        onError: arg => console.error("payment error", arg)
+      };
+      if (outputs.length === 1) {
+        config.editable = false;
+        config.to = outputs[0].script;
+        config.amount = outputs[0].amount;
+        config.currency = "BSV";
+      } else if (outputs.length > 1) {
+        config.editable = false;
+        config.outputs = outputs.map(o => {
+          return { to: o.script, amount: o.amount };
+        });
+      }
+      relayone.render(document.getElementById("relayoneContainer"), config);
+    }
+    function makeMoneyButton(outputs) {
+      var config = {
+        disabled: false,
+        onPayment: arg => console.log("payment success", arg),
+        onError: arg => console.error("payment error", arg)
+      };
+      if (outputs.length === 1) {
+        config.editable = false;
+        config.to = outputs[0].script;
+        config.amount = outputs[0].amount;
+        config.currency = "BSV";
+      } else if (outputs.length > 1) {
+        config.editable = false;
+        config.outputs = outputs.map(o => {
+          return { to: o.script, amount: o.amount };
+        });
+      }
+      moneyButton.render(
+        document.getElementById("moneybuttonContainer"),
+        config
+      );
+    }
+    function makeBitBtn(outputs) {
+      var container = $("#bitbtnContainer");
+
+      if (outputs.length == 1) {
+        var innerContainer = $("<div>").attr("id", "bitbtn-inner-container");
+        var amountLabel = $("<label>")
+          .attr("for", "bitbtn-amount")
+          .append("Amount:");
+        var amountInput = $("<input>")
+          .attr("id", "bitbtn-amount")
+          .attr("type", "number")
+          .attr("min", 0);
+        container
+          .empty()
+          .append(amountLabel)
+          .append(amountInput)
+          .append(innerContainer);
+        function createBitBtnBasedOnInput(e) {
+          var amount = parseFloat(amountInput.val());
+          if (amount < 0 || isNaN(amount)) return;
+          innerContainer.empty();
+          bitbtn.create(document.getElementById("bitbtn-inner-container"), {
+            script: outputs[0].script,
+            amount: amount,
+            currency: "BSV",
+            onError: function(error) {
+              console.log(error);
+            }
+          });
+        }
+
+        amountInput.on("keyup", createBitBtnBasedOnInput);
+        amountInput.val(outputs[0].amount);
+        createBitBtnBasedOnInput();
+      } else {
+        bitbtn.create(
+          document.getElementById("location-for-the-bitcoin-button"),
+          {
+            label: "Complex Pay!",
+            outputs: outputs.map(o => {
+              o.currency = "BSV";
+              return o;
+            }),
+            onError: function(error) {
+              console.log(error);
+            }
+          }
+        );
+      }
+    }
+
+    function init() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const bitcoinUri = urlParams.get("req");
+      console.log("bitcoinUri=" + bitcoinUri);
+      if (!bitcoinUri || !bitcoinUri.startsWith("bitcoin:")) {
+        console.log("This page requires a valid bitcoin uri to be passed");
+        return;
+      }
+
+      const sIndex = bitcoinUri.indexOf("?");
+      const bPath = bitcoinUri.substring("bitcoin:".length, sIndex);
+      const bParams = new URLSearchParams(
+        sIndex > 0 ? bitcoinUri.substring(sIndex) : null
+      );
+      const uriType = findUriType(bPath, bParams);
+
+      console.log("uriType=" + uriType);
+
+      showWarnings(uriType);
+
+      if (uriType === "bip21" || uriType === "bip21sv")
+        showBip21(bPath, bParams);
+      else if (uriType === "bip272+address" || uriType === "bip272")
+        showBip272(bPath, bParams);
+      else console.log("Unknown Uri type");
+    }
+
+    return { init: init };
+  })();
+  addEventListener("load", uriParser.init);
+</script>
