@@ -10,8 +10,12 @@
     background-color: ghostwhite;
     border: 1px solid lightgrey;
     flex: 1;
-    height: 7em;
+    height: 9em;
+    padding: 10px;
     text-align: center;
+  }
+  .button-container * {
+    padding: 2px;
   }
   #uriWarningMessage {
     color: red;
@@ -24,17 +28,23 @@
 <div id="uriWarningMessage"></div>
 
 <div class="buttons-wrapper">
-  <div id="moneybuttonContainer" class="button-container">
-    <br />
-    Loading MoneyButton...
+  <div class="button-container">
+    <div id="moneybuttonContainer">
+      <br />
+      Loading MoneyButton...
+    </div>
   </div>
-  <div id="relayoneContainer" class="button-container">
-    <br />
-    Loading Relay One...
+  <div class="button-container">
+    <div id="relayoneContainer">
+      <br />
+      Loading Relay One...
+    </div>
   </div>
-  <div id="bitbtnContainer" class="button-container">
-    <br />
-    Loading BitBtn...
+  <div class="button-container">
+    <div id="bitbtnContainer">
+      <br />
+      Loading BitBtn...
+    </div>
   </div>
 </div>
 
@@ -131,7 +141,9 @@
           return { to: o.script, amount: o.amount };
         });
       }
-      relayone.render(document.getElementById("relayoneContainer"), config);
+      var container = document.getElementById("relayoneContainer");
+      container.innerHTML = "";
+      relayone.render(container, config);
     }
     function makeMoneyButton(outputs) {
       var config = {
@@ -150,10 +162,9 @@
           return { to: o.script, amount: o.amount };
         });
       }
-      moneyButton.render(
-        document.getElementById("moneybuttonContainer"),
-        config
-      );
+      var container = document.getElementById("moneybuttonContainer");
+      container.innerHTML = "";
+      moneyButton.render(container, config);
     }
     function makeBitBtn(outputs) {
       var container = $("#bitbtnContainer");
@@ -169,9 +180,9 @@
           .attr("min", 0);
         container
           .empty()
+          .append(innerContainer)
           .append(amountLabel)
-          .append(amountInput)
-          .append(innerContainer);
+          .append(amountInput);
         function createBitBtnBasedOnInput(e) {
           var amount = parseFloat(amountInput.val());
           if (amount < 0 || isNaN(amount)) return;
