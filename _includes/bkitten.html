@@ -154,7 +154,8 @@
             broadcastTx(transaction)
                 .then((res) => res.json())
                 .then((res) => console.log(res))
-                .then(() => initialize());
+                .then(() => initialize())
+                .catch(err => console.error(err));
         }
 
         function split() {
@@ -169,7 +170,8 @@
             broadcastTx(transaction)
                 .then((res) => res.json())
                 .then((res) => console.log(res))
-                .then(() => initialize());
+                .then(() => initialize())
+                .catch(err => console.error(err));
         }
 
         function analyzeFile() {
