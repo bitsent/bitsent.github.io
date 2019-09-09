@@ -59,6 +59,7 @@
         let txns = {};
 
         let requiredTxns;
+
         function initialize() {
             let wif = localStorage.getItem('privateKey');
 
@@ -81,11 +82,11 @@
             document.getElementById('qrcode').innerHTML = qr.createImgTag();
 
             return fetch(BITINDEX_ADDR_URI + address + '/utxo', {
-                headers: {
-                    api_key: API_KEY,
-                    'Content-Type': 'application/json',
-                },
-            })
+                    headers: {
+                        api_key: API_KEY,
+                        'Content-Type': 'application/json',
+                    },
+                })
                 .then((res) => res.json())
                 .then((data) => {
                     utxos = data;
@@ -116,8 +117,11 @@
                     document.getElementById('splitCount').innerText = splitCount;
                     document.getElementById('smallCount').innerText = smallUtxos.length;
 
-                    try { analyzeFile(); }
-                    catch (err) { console.error(err); }
+                    try {
+                        analyzeFile();
+                    } catch (err) {
+                        console.error(err);
+                    }
                 });
         }
 
@@ -131,14 +135,18 @@
                     address: address.toString(),
                     amount: btnAmount,
                     currency: "BSV",
-                    onError: function (error) { console.log(error); },
+                    onError: function (error) {
+                        console.log(error);
+                    },
                 });
         }
 
         function broadcastTx(rawtx) {
             return fetch(BITINDEX_SEND_URI, {
                 method: 'POST',
-                body: JSON.stringify({ rawtx: rawtx.toString() }),
+                body: JSON.stringify({
+                    rawtx: rawtx.toString()
+                }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -235,8 +243,7 @@
                         hex: bTxn.toString(),
                         status: 0
                     };
-                }
-                else {
+                } else {
                     bTxn = new bsv.Transaction()
                         .from(readyUtxos[i++])
                         .addData([
@@ -281,12 +288,13 @@
             let res = await broadcastTx(txn.hex);
             if (res.ok) {
                 txn.status = 1;
-                document.getElementById(txnId).innerHTML = `<a href="https://whatsonchain.com/tx/${txnId}" target="_blank">Success</a>`;
-            }
-            else {
+                document.getElementById(txnId).innerHTML =
+                    `<a href="https://whatsonchain.com/tx/${txnId}" target="_blank">Success</a>`;
+            } else {
                 let error = await res.json();
                 txn.status = error.message.message;
-                document.getElementById(txnId).innerHTML = `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcastByIndex('${txnId}')">Retry</a>`;
+                document.getElementById(txnId).innerHTML =
+                    `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcastByIndex('${txnId}')">Retry</a>`;
             }
         }
 
@@ -296,12 +304,11 @@
                 let status;
                 if (txn.status == 0) {
                     status = 'Pending';
-                }
-                else if (txn.status == 1) {
+                } else if (txn.status == 1) {
                     status = `<a href="https://whatsonchain.com/tx/${hash}">Success</a>`;
-                }
-                else {
-                    status = `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcastByIndex('${hash}')">Retry</a>`;
+                } else {
+                    status =
+                        `Error: ${txn.status} - <a href="javascript:void()" onclick="broadcastByIndex('${hash}')">Retry</a>`;
                 }
                 txnList.push(`<li><strong>${hash}</strong> - <span id="${hash}">${status}</span></li>`);
             }
@@ -336,10 +343,9 @@
                         var href = "https://whatsonchain.com/tx/" + res.txid;
                         var text = "TX: " + res.txid.substr(0, 10) + "...";
                         refundLabel.innerHTML = "<a href='" + href + "'>" + text + "</a>";
-                    }
-                    else if (res.message.message) {
-                        refundLabel.innerText = "ERROR (" + res.message.code + "): "
-                            + res.message.message;
+                    } else if (res.message.message) {
+                        refundLabel.innerText = "ERROR (" + res.message.code + "): " +
+                            res.message.message;
                     }
 
                     initialize();
@@ -347,6 +353,7 @@
         }
 
         wifqr = null;
+
         function toggle() {
             if (wifqr === null) {
                 var wifqr_generator = qrcode(4, 'M');
@@ -389,12 +396,13 @@
 
         <h2>2. Prepare UTXOs</h2>
         <label for="selectFeeInput">Select Fee: </label>
-        <input id="selectFeeInput" type="range" value="1" min="0.2" max="1.5" step="0.01" style="display:inline-block;width:300px;">
+        <input id="selectFeeInput" type="range" value="1" min="0.2" max="1.5" step="0.01"
+            style="display:inline-block;width:300px;">
         <span id="selectFeeLabel">1 sat/byte</span>
         <script>
             window.selectFeeInput.addEventListener("change", e => {
                 window.selectFeeLabel.innerHTML = window.selectFeeInput.value + " sat/byte";
-                splitValue = (90.5e3 * window.selectFeeInput.value ) + 1; 
+                splitValue = (90.5e3 * window.selectFeeInput.value) + 1;
                 initialize();
             });
             window.selectFeeInput.addEventListener("input", e => {
@@ -448,5 +456,7 @@
         <p id="wif" style="display:none"></p>
     </div>
 
-    <script>initialize();</script>
+    <script>
+        initialize();
+    </script>
 </div>
