@@ -53,7 +53,7 @@
         let uncomfirmedUtxos = [];
         let spendUtxos = [];
         let chunkSize = 90e3;
-        let splitValue = 90.5e3;
+        var splitValue = 90.5e3;
         let splitCount;
         let chunks;
         let txns = {};
@@ -388,6 +388,20 @@
         <hr />
 
         <h2>2. Prepare UTXOs</h2>
+        <label for="selectFeeInput">Select Fee: </label>
+        <input id="selectFeeInput" type="range" value="1" min="0.2" max="1.5" step="0.01" style="display:inline-block;width:300px;">
+        <span id="selectFeeLabel">1 sat/byte</span>
+        <script>
+            window.selectFeeInput.addEventListener("change", e => {
+                window.selectFeeLabel.innerHTML = window.selectFeeInput.value + " sat/byte";
+                splitValue = (90.5e3 * window.selectFeeInput.value ) + 1; 
+                initialize();
+            });
+            window.selectFeeInput.addEventListener("input", e => {
+                window.selectFeeLabel.innerHTML = window.selectFeeInput.value + " sat/byte";
+            });
+        </script>
+        <br>
         In order to bypass a limitation in the number of chained transactions allowed, split transactions and let them
         confirm before you upload.
         <span onclick="initialize()">🔄</span>
