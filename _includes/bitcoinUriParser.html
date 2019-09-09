@@ -23,7 +23,8 @@
     text-align: center;
     padding: 1em;
   }
-  #uriType, #uriDetails {
+  #uriType,
+  #uriDetails {
     text-align: center;
   }
 </style>
@@ -145,10 +146,13 @@
       //makeRelayOneButton(outputs);
       //makeBitBtn(outputs);
     }
-    function showUnknown(){
-      document.getElementById("moneybuttonContainer").innerHTML = "Failed to Parse URI"
-      document.getElementById("relayoneContainer").innerHTML = "Failed to Parse URI"
-      document.getElementById("bitbtnContainer").innerHTML = "Failed to Parse URI"
+    function showUnknown() {
+      document.getElementById("moneybuttonContainer").innerHTML =
+        "Failed to Parse URI";
+      document.getElementById("relayoneContainer").innerHTML =
+        "Failed to Parse URI";
+      document.getElementById("bitbtnContainer").innerHTML =
+        "Failed to Parse URI";
     }
 
     function makeRelayOneButton(outputs) {
@@ -245,12 +249,12 @@
     }
 
     function init() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const bitcoinUri = urlParams.get("req");
-      console.log("bitcoinUri=" + bitcoinUri);
+      var urlParams = new URLSearchParams(window.location.search);
+      var bitcoinUri = urlParams.get("req");
       if (!bitcoinUri || !bitcoinUri.startsWith("bitcoin:")) {
         bitcoinUri = "bitcoin:invalid";
       }
+      console.log("'" + bitcoinUri + "'");
 
       var sIndex = bitcoinUri.indexOf("?");
       if (sIndex < 0) sIndex = bitcoinUri.length;
