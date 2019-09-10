@@ -177,7 +177,8 @@
         var amountInput = $("<input>")
           .attr("id", "bitbtn-amount")
           .attr("type", "number")
-          .attr("min", 0);
+          .attr("min", 0)
+          .attr("step", 0.00000001);
         container
           .empty()
           .append(innerContainer)
