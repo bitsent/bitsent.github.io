@@ -23,7 +23,14 @@
     text-align: center;
     padding: 1em;
   }
+  #uriType,
+  #uriDetails {
+    text-align: center;
+  }
 </style>
+
+<h2 id="uriType"></h2>
+<div id="uriDetails"></div>
 
 <div id="uriWarningMessage"></div>
 
@@ -52,13 +59,13 @@
   const uriParser = (function() {
     // the schemes are ordered - more strict to less strict
     var schemes = {
-      "bip272+address": {
-        pathRegex: /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/,
-        required: ["sv", "r"]
+      bip275: {
+        pathRegex: /^$/,
+        required: ["req-bip275", "paymentUrl", "network", "outputs"]
       },
       bip272: {
         pathRegex: /^$/,
-        required: ["sv", "r"]
+        required: ["req-bip272", "r"]
       },
       bip21sv: {
         pathRegex: /^[13][a-km-zA-HJ-NP-Z1-9]{25,34}$/,
@@ -71,25 +78,32 @@
     };
 
     function findUriType(bPath, bParams) {
+      var requiredParams = [];
+      bParams.forEach((v, k) => {
+        if (k.startsWith("req-")) requiredParams.push(k);
+      });
+
       for (var sch in schemes) {
         var pathMatch = schemes[sch].pathRegex.test(bPath);
         var paramsMatch = schemes[sch].required.every(
           p => bParams.get(p) !== null
         );
-        if (pathMatch && paramsMatch) {
+        var noExtraRequiredParams = requiredParams.every(
+          p => schemes[sch].required.indexOf(p) >= 0
+        );
+        if (pathMatch && paramsMatch && noExtraRequiredParams) {
           return sch;
         }
       }
-      return null;
+      return (
+        "Unknown Bitcoin URI" +
+        (requiredParams.length > 0
+          ? " : [" + requiredParams.join(", ") + "]"
+          : "")
+      );
     }
 
     function showWarnings(uriType) {
-      if (uriType === "bip272+address")
-        $("#uriWarningMessage")
-          .empty()
-          .append(
-            "Warning: It is not advisable to include an address in BIP-272 URIs"
-          );
       if (uriType === "bip21")
         $("#uriWarningMessage")
           .empty()
@@ -122,6 +136,23 @@
       //makeMoneyButton(outputs);
       //makeRelayOneButton(outputs);
       //makeBitBtn(outputs);
+    }
+    function showBip275(bPath, bParams) {
+      alert("BIP-275 is not implemented yet");
+      //outputs = [
+      //  // TODO: Implement this;
+      //];
+      //makeMoneyButton(outputs);
+      //makeRelayOneButton(outputs);
+      //makeBitBtn(outputs);
+    }
+    function showUnknown() {
+      document.getElementById("moneybuttonContainer").innerHTML =
+        "Failed to Parse URI";
+      document.getElementById("relayoneContainer").innerHTML =
+        "Failed to Parse URI";
+      document.getElementById("bitbtnContainer").innerHTML =
+        "Failed to Parse URI";
     }
 
     function makeRelayOneButton(outputs) {
@@ -219,30 +250,29 @@
     }
 
     function init() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const bitcoinUri = urlParams.get("req");
-      console.log("bitcoinUri=" + bitcoinUri);
+      var urlParams = new URLSearchParams(window.location.search);
+      var bitcoinUri = urlParams.get("req");
       if (!bitcoinUri || !bitcoinUri.startsWith("bitcoin:")) {
-        console.log("This page requires a valid bitcoin uri to be passed");
-        return;
+        bitcoinUri = "bitcoin:invalid";
       }
+      console.log("'" + bitcoinUri + "'");
 
-      const sIndex = bitcoinUri.indexOf("?");
-      const bPath = bitcoinUri.substring("bitcoin:".length, sIndex);
-      const bParams = new URLSearchParams(
-        sIndex > 0 ? bitcoinUri.substring(sIndex) : null
-      );
-      const uriType = findUriType(bPath, bParams);
+      var sIndex = bitcoinUri.indexOf("?");
+      if (sIndex < 0) sIndex = bitcoinUri.length;
+      var bPath = bitcoinUri.substring("bitcoin:".length, sIndex);
+      var bParams = new URLSearchParams(bitcoinUri.substring(sIndex));
 
-      console.log("uriType=" + uriType);
+      var uriType = findUriType(bPath, bParams);
+
+      document.getElementById("uriType").innerHTML = uriType;
 
       showWarnings(uriType);
 
       if (uriType === "bip21" || uriType === "bip21sv")
         showBip21(bPath, bParams);
-      else if (uriType === "bip272+address" || uriType === "bip272")
-        showBip272(bPath, bParams);
-      else console.log("Unknown Uri type");
+      else if (uriType === "bip272") showBip272(bPath, bParams);
+      else if (uriType === "bip275") showBip275(bPath, bParams);
+      else showUnknown();
     }
 
     return { init: init };
