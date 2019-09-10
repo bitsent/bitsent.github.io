@@ -138,13 +138,10 @@
       //makeBitBtn(outputs);
     }
     function showBip275(bPath, bParams) {
-      alert("BIP-275 is not implemented yet");
-      //outputs = [
-      //  // TODO: Implement this;
-      //];
-      //makeMoneyButton(outputs);
-      //makeRelayOneButton(outputs);
-      //makeBitBtn(outputs);
+      outputs = JSON.parse(bParams.get("outputs"));
+      makeMoneyButton(outputs);
+      makeRelayOneButton(outputs);
+      makeBitBtn(outputs);
     }
     function showUnknown() {
       document.getElementById("moneybuttonContainer").innerHTML =
