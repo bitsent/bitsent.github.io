@@ -30,6 +30,7 @@
     font-weight: bold;
     text-align: center;
     padding: 1em;
+    font-size: 1.5em;
   }
 
   .center-text {
@@ -40,10 +41,13 @@
     text-decoration: underline;
     color: rgb(131, 0, 0);
   }
+
+  #uriDetails {
+    font-size: 1.5em;
+  }
 </style>
 
 <h2 class="center-text">You clicked on a <span id="uriType">...</span> Link</h2>
-<div class="center-text" id="uriDetails"></div>
 
 <div class="center-text" id="uriWarningMessage"></div>
 
@@ -69,6 +73,8 @@
   <!-- ADDING MORE BUTTONS IS EASY... -->
   <!-- <div class="button-container"><div id="whatever">Loading button...</div></div> -->
 </div>
+
+<div id="uriDetails"></div>
 
 <script>
   const uriParser = (function () {
@@ -178,7 +184,21 @@
         })
       console.log("Outputs: ", outs);
 
+      bParams.forEach((v, k) => console.log(k, v))
 
+      displayDetail("outputs", outs.length);
+      if (bParams.get('memo')) {
+        displayDetail("memo", bParams.get('memo'))
+      }
+
+      expirationTimestamp = parseInt(bParams.get('expirationTimestamp'));
+      if (expirationTimestamp) {
+        displayDetail("expiration", new Date(expirationTimestamp));
+      }
+      if (expirationTimestamp && expirationTimestamp < (new Date().getTime() / 1000)) {
+        displayWarning("Payment Request Expired!");
+        return;
+      }
 
       makeMoneyButton(JSON.parse(JSON.stringify(outs)));
       makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
@@ -298,6 +318,14 @@
 
     function displayWarning(warning) {
       $("#uriWarningMessage").append($("<div>").append(warning));
+    }
+
+    function displayDetail(detailName, detailText) {
+      $("#uriDetails").append(
+        $("<div>").append(
+          $("<strong>").append(detailName + ": "),
+          $("<span>").append(detailText)
+        ))
     }
 
     function init() {
