@@ -193,7 +193,7 @@
 
       expirationTimestamp = parseInt(bParams.get('expirationTimestamp'));
       if (expirationTimestamp) {
-        displayDetail("expiration", new Date(expirationTimestamp));
+        displayDetail("expiration", new Date(expirationTimestamp*1000));
       }
       if (expirationTimestamp && expirationTimestamp < (new Date().getTime() / 1000)) {
         displayWarning("Payment Request Expired!");
