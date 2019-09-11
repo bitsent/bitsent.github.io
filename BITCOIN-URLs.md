@@ -12,7 +12,7 @@ If you are reading this, you probably clicked on a "bitcoin:" link.
 
 # Make The Payment
 
-Click on one of the three buttons to make the payment.
+Just use one of the payment options down bellow (whichever you prefer):
 
 <div>
 {%- include bitcoinUriParser.html -%}
