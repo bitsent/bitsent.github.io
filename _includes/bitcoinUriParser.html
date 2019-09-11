@@ -110,14 +110,11 @@
     function showWarnings(uriType) {
       if (uriType === "bip21")
         $("#uriWarningMessage")
-        .empty()
-        .append(
-          "Warning: This might be a BTC link. It doesn't have the expected 'sv' parameter."
-        );
+        .append($("<div>").append(
+          "Warning: This might be a BTC link. It doesn't have the expected 'sv' parameter."));
       if (!(uriType in schemes))
         $("#uriWarningMessage")
-        .empty()
-        .append("Warning: Unknown Bitcoin URI type.");
+        .append($("<div>").append("Warning: Unknown Bitcoin URI type."));
     }
 
     function showBip21(bPath, bParams) {
@@ -132,15 +129,34 @@
       makeBitBtn(JSON.parse(JSON.stringify(outs)));
     }
 
-    function showBip272(bPath, bParams) {
+    async function showBip272(bPath, bParams) {
       console.log("Creating BIP-272 based Buttons")
-      alert("BIP-272 is not implemented yet");
-      //var outs = [
-      //  // TODO: Implement this;
-      //];
-      //makeMoneyButton(JSON.parse(JSON.stringify(outs)));
-      //makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
-      //makeBitBtn(JSON.parse(JSON.stringify(outs)));
+      var url = bParams.get("r");
+      console.log("GET: " + url);
+      try {
+        var result = await fetch(url)
+        let response = await fetch(url);
+        if (response.ok) {
+          var request = await result.json();
+        } else {
+          throw "HTTP-Error: " + response.status;
+        }
+        
+        var outs = request.outputs.map(o => {
+          return {
+            script: o.script,
+            amount: o.amount / 100000000,
+            currency: "BSV"
+          }
+        })
+        makeMoneyButton(JSON.parse(JSON.stringify(outs)));
+        makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
+        makeBitBtn(JSON.parse(JSON.stringify(outs)));
+      } catch (e) {
+        $("#uriWarningMessage")
+          .append($("<div>")
+            .append("Failed to get BIP-272 payment request from '" + url + "' : " + e));
+      }
     }
 
     function showBip275(bPath, bParams) {
