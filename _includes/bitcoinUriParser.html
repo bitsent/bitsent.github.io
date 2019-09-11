@@ -2,13 +2,15 @@
 <script src="https://one.relayx.io/embed.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
 
+<script src="/js/bsv.js"></script>
+
 <style>
   .buttons-wrapper {
     display: flex;
     flex-wrap: wrap;
   }
 
-  @media (max-width : 500px) {
+  @media (max-width: 500px) {
     .buttons-wrapper {
       flex-direction: column;
     }
@@ -77,7 +79,7 @@
 <div id="uriDetails"></div>
 
 <script>
-  const uriParser = (function () {
+  const uriParser = (function() {
     // the schemes are ordered - more strict to less strict
     var schemes = {
       bip275: {
@@ -118,38 +120,40 @@
       }
       return (
         "Unknown Bitcoin URI" +
-        (requiredParams.length > 0 ?
-          " : [" + requiredParams.join(", ") + "]" :
-          "")
+        (requiredParams.length > 0
+          ? " : [" + requiredParams.join(", ") + "]"
+          : "")
       );
     }
 
     function checkForUriTypeWarnings(uriType) {
       if (uriType === "bip21")
         displayWarning(
-          "Warning: This might be a BTC link. It doesn't have the expected 'sv' parameter.");
+          "Warning: This might be a BTC link. It doesn't have the expected 'sv' parameter."
+        );
       if (!(uriType in schemes))
         displayWarning("Warning: Unknown Bitcoin URI type.");
     }
 
     function showBip21(bPath, bParams) {
-      console.log("Creating BIP-21 based Buttons")
-      var outs = [{
-        script: bitbtn.scripter.p2pkh(bPath),
-        amount: parseFloat(bParams.get("amount") || 0.001),
-        currency: "BSV"
-      }];
-      makeMoneyButton(JSON.parse(JSON.stringify(outs)));
-      makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
-      makeBitBtn(JSON.parse(JSON.stringify(outs)));
+      console.log("Creating BIP-21 based Buttons");
+      var outs = [
+        {
+          script: bitbtn.scripter.p2pkh(bPath),
+          amount: parseFloat(bParams.get("amount") || 0.001),
+          currency: "BSV"
+        }
+      ];
+
+      showAllButtons(outs);
     }
 
     async function showBip272(bPath, bParams) {
-      console.log("Creating BIP-272 based Buttons")
+      console.log("Creating BIP-272 based Buttons");
       var url = bParams.get("r");
       console.log("GET: " + url);
       try {
-        var result = await fetch(url)
+        var result = await fetch(url);
         let response = await fetch(url);
         if (response.ok) {
           var request = await result.json();
@@ -162,47 +166,66 @@
             script: o.script,
             amount: o.amount / 100000000,
             currency: "BSV"
-          }
-        })
-        makeMoneyButton(JSON.parse(JSON.stringify(outs)));
-        makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
-        makeBitBtn(JSON.parse(JSON.stringify(outs)));
+          };
+        });
+
+        showAllButtons(outs);
       } catch (e) {
-        displayWarning("Failed to get BIP-272 payment request from '" + url + "' : " + e);
+        displayWarning(
+          "Failed to get BIP-272 payment request from '" + url + "' : " + e
+        );
       }
     }
 
     function showBip275(bPath, bParams) {
-      console.log("Creating BIP-275 based Buttons")
-      var outs = JSON.parse(bParams.get("outputs"))
-        .map(o => {
-          return {
-            script: o.script,
-            amount: o.amount / 100000000,
-            currency: "BSV"
-          }
-        })
+      console.log("Creating BIP-275 based Buttons");
+      var outs = JSON.parse(bParams.get("outputs")).map(o => {
+        return {
+          script: o.script,
+          amount: o.amount / 100000000,
+          currency: "BSV"
+        };
+      });
       console.log("Outputs: ", outs);
 
-      bParams.forEach((v, k) => console.log(k, v))
+      bParams.forEach((v, k) => console.log(k, v));
 
       displayDetail("outputs", outs.length);
-      if (bParams.get('memo')) {
-        displayDetail("memo", bParams.get('memo'))
+      if (bParams.get("memo")) {
+        displayDetail("memo", bParams.get("memo"));
       }
 
-      expirationTimestamp = parseInt(bParams.get('expirationTimestamp'));
+      expirationTimestamp = parseInt(bParams.get("expirationTimestamp"));
       if (expirationTimestamp) {
-        displayDetail("expiration", new Date(expirationTimestamp*1000));
+        displayDetail("expiration", new Date(expirationTimestamp * 1000));
       }
-      if (expirationTimestamp && expirationTimestamp < (new Date().getTime() / 1000)) {
+      if (
+        expirationTimestamp &&
+        expirationTimestamp < new Date().getTime() / 1000
+      ) {
         displayWarning("Payment Request Expired!");
         return;
       }
 
-      makeMoneyButton(JSON.parse(JSON.stringify(outs)));
-      makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
-      makeBitBtn(JSON.parse(JSON.stringify(outs)));
+      showAllButtons(outs);
+    }
+
+    function showAllButtons(outs) {
+      try {
+        makeMoneyButton(JSON.parse(JSON.stringify(outs)));
+      } catch (e) {
+        displayWarning("MoneyButton Error: " + e);
+      }
+      try {
+        makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
+      } catch (e) {
+        displayWarning("RelayOne Error: " + e);
+      }
+      try {
+        makeBitBtn(JSON.parse(JSON.stringify(outs)));
+      } catch (e) {
+        displayWarning("BitBtn Error: " + e);
+      }
     }
 
     function showUnknown() {
@@ -222,14 +245,14 @@
       };
       if (outputs.length === 1) {
         config.editable = false;
-        config.to = outputs[0].script;
+        config.to = scriptToAsm(outputs[0].script);
         config.amount = outputs[0].amount;
         config.currency = outputs[0].currency;
       } else if (outputs.length > 1) {
         config.editable = false;
         config.outputs = outputs.map(o => {
           return {
-            to: o.script,
+            to: scriptToAsm(o.script),
             amount: o.amount,
             currency: o.currency
           };
@@ -237,6 +260,7 @@
       }
       var container = document.getElementById("relayoneContainer");
       container.innerHTML = "";
+      console.log("relayone", config, container);
       relayone.render(container, config);
     }
 
@@ -248,21 +272,22 @@
       };
       if (outputs.length === 1) {
         config.editable = false;
-        config.to = outputs[0].script;
-        config.amount = outputs[0].amount;
+        config.to = scriptToAsm(outputs[0].script);
+        config.amount = outputs[0].amount || 0.00000000000000000001; // workaround for a bug.
         config.currency = outputs[0].currency;
       } else if (outputs.length > 1) {
         config.editable = false;
         config.outputs = outputs.map(o => {
           return {
-            to: o.script,
-            amount: o.amount,
+            to: scriptToAsm(o.script),
+            amount: o.amount || 0.00000000000000000001, // workaround for a bug.
             currency: o.currency
           };
         });
       }
       var container = document.getElementById("moneybuttonContainer");
       container.innerHTML = "";
+      console.log("moneyButton", config, container);
       moneyButton.render(container, config);
     }
 
@@ -289,15 +314,14 @@
           var amount = parseFloat(amountInput.val());
           if (amount < 0 || isNaN(amount)) return;
           innerContainer.empty();
-          bitbtn.create(
-            document.getElementById("bitbtn-inner-container"), {
-              script: outputs[0].script,
-              amount: amount,
-              currency: outputs[0].currency,
-              onError: function (error) {
-                console.log(error);
-              }
-            });
+          bitbtn.create(document.getElementById("bitbtn-inner-container"), {
+            script: outputs[0].script,
+            amount: amount,
+            currency: outputs[0].currency,
+            onError: function(error) {
+              console.log(error);
+            }
+          });
         }
 
         amountInput.on("keyup", createBitBtnBasedOnInput);
@@ -305,15 +329,19 @@
         createBitBtnBasedOnInput();
       } else {
         container.empty();
-        bitbtn.create(
-          document.getElementById("bitbtnContainer"), {
-            outputs: outputs,
-            onError: function (error) {
-              console.log(error);
-            }
+        bitbtn.create(document.getElementById("bitbtnContainer"), {
+          outputs: outputs,
+          onError: function(error) {
+            console.log(error);
           }
-        );
+        });
       }
+    }
+
+    function scriptToAsm(script) {
+      var asm = new bsv.Script(script).toASM();
+      console.log(asm);
+      return asm;
     }
 
     function displayWarning(warning) {
@@ -325,7 +353,8 @@
         $("<div>").append(
           $("<strong>").append(detailName + ": "),
           $("<span>").append(detailText)
-        ))
+        )
+      );
     }
 
     function init() {
@@ -348,17 +377,13 @@
       checkForUriTypeWarnings(uriType);
 
       try {
-        if (uriType === "bip21")
-          showBip21(bPath, bParams);
-        else if (uriType === "bip21sv")
-          showBip21(bPath, bParams);
-        else if (uriType === "bip272")
-          showBip272(bPath, bParams);
-        else if (uriType === "bip275")
-          showBip275(bPath, bParams);
+        if (uriType === "bip21") showBip21(bPath, bParams);
+        else if (uriType === "bip21sv") showBip21(bPath, bParams);
+        else if (uriType === "bip272") showBip272(bPath, bParams);
+        else if (uriType === "bip275") showBip275(bPath, bParams);
         else showUnknown();
       } catch (e) {
-        displayWarning("Error: " + e)
+        displayWarning("Error: " + e);
       }
     }
 
