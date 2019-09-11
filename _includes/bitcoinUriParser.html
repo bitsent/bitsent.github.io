@@ -6,14 +6,19 @@
   .buttons-wrapper {
     display: flex;
   }
+  
+  @media (max-width : 500px) {
+    .buttons-wrapper {
+      flex-direction: column;
+    }
+  }
 
   .button-container {
     background-color: ghostwhite;
     border: 1px solid lightgrey;
     flex: 1;
-    height: 9em;
     padding: 10px;
-    text-align: center;
+    margin: 5px;
   }
 
   .button-container * {
