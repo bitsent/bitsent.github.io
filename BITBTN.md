@@ -7,7 +7,7 @@ subtitle: A button that does Bitcoin stuff
 
 ![logo](/img/logo-text-transperant.png)
 
-# BitBtn
+# Bit Btn
 
 An UI Button for interacting with **Bitcoin SV** wallets (written in pure JS - no dependencies)
 
