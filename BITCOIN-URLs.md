@@ -24,6 +24,6 @@ This is pretty cool, isn't it?
 <br/>But it can be even better. Imagine if instead of this page, your wallet oppened up and offered to make the transaction. Yep - they can do that.
 <br/>Do you want to help? Send a letter to the people supporting your favourite wallet. Tell them to add support for **BIP275** and **BIP21**
 <br/>
-<br/>Give them these links Links:
+<br/>Give them these Links:
 - BIP-275 : [https://github.com/moneybutton/bips/blob/master/bip-0275.mediawiki](https://github.com/moneybutton/bips/blob/master/bip-0275.mediawiki)
 - BIP-21 : [https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki)
