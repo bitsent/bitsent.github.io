@@ -246,14 +246,14 @@
       if (outputs.length === 1) {
         config.editable = false;
         config.to = scriptToAsm(outputs[0].script);
-        config.amount = outputs[0].amount;
+        config.amount = outputs[0].amount.toString();
         config.currency = outputs[0].currency;
       } else if (outputs.length > 1) {
         config.editable = false;
         config.outputs = outputs.map(o => {
           return {
             to: scriptToAsm(o.script),
-            amount: o.amount,
+            amount: o.amount.toString(),
             currency: o.currency
           };
         });
