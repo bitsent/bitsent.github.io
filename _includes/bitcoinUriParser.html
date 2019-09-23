@@ -1,5 +1,5 @@
 <script src="https://www.moneybutton.com/moneybutton.js"></script>
-<script src="https://one.relayx.io/embed.js"></script>
+<script src="https://one.relayx.io/relayone.js"></script>
 
 <script src="/js/bsv.js"></script>
 
@@ -139,12 +139,12 @@
       var outs = [
         {
           script: bitbtn.scripter.p2pkh(bPath),
-          amount: parseFloat(bParams.get("amount") || 0.001),
+          amount: parseFloat(bParams.get("amount") || 0.00),
           currency: "BSV"
         }
       ];
-
-      showAllButtons(outs);
+      editable = !bParams.get("amount");
+      showAllButtons(outs, editable);
     }
 
     async function showBip272(bPath, bParams) {
@@ -209,19 +209,25 @@
       showAllButtons(outs);
     }
 
-    function showAllButtons(outs) {
+    function showAllButtons(outs, editable) {
       try {
-        makeMoneyButton(JSON.parse(JSON.stringify(outs)));
+        makeMoneyButton(
+          JSON.parse(JSON.stringify(outs)),
+          editable);
       } catch (e) {
         displayWarning("MoneyButton Error: " + e);
       }
       try {
-        makeRelayOneButton(JSON.parse(JSON.stringify(outs)));
+        makeRelayOneButton(
+          JSON.parse(JSON.stringify(outs)),
+          editable);
       } catch (e) {
         displayWarning("RelayOne Error: " + e);
       }
       try {
-        makeBitBtn(JSON.parse(JSON.stringify(outs)));
+        makeBitBtn(
+          JSON.parse(JSON.stringify(outs)),
+          editable);
       } catch (e) {
         displayWarning("BitBtn Error: " + e);
       }
@@ -236,23 +242,23 @@
         "Failed to Parse URI";
     }
 
-    function makeRelayOneButton(outputs) {
+    function makeRelayOneButton(outputs, editable) {
       var config = {
         disabled: false,
         onPayment: arg => console.log("payment success", arg),
         onError: arg => console.error("payment error", arg)
       };
-      if (outputs.length === 1) {
+      if (editable && outputs.length === 1) {
         config.editable = false;
         config.to = scriptToAsm(outputs[0].script);
-        config.amount = outputs[0].amount;
+        config.amount = outputs[0].amount.toString();
         config.currency = outputs[0].currency;
-      } else if (outputs.length > 1) {
+      } else {
         config.editable = false;
         config.outputs = outputs.map(o => {
           return {
             to: scriptToAsm(o.script),
-            amount: o.amount,
+            amount: o.amount.toString(),
             currency: o.currency
           };
         });
@@ -263,23 +269,23 @@
       relayone.render(container, config);
     }
 
-    function makeMoneyButton(outputs) {
+    function makeMoneyButton(outputs, editable) {
       var config = {
         disabled: false,
         onPayment: arg => console.log("payment success", arg),
         onError: arg => console.error("payment error", arg)
       };
-      if (outputs.length === 1) {
+      if (editable && outputs.length === 1) {
         config.editable = false;
         config.to = scriptToAsm(outputs[0].script);
-        config.amount = outputs[0].amount || 0.00000000000000000001; // workaround for a bug.
+        config.amount = outputs[0].amount.toString();
         config.currency = outputs[0].currency;
-      } else if (outputs.length > 1) {
+      } else {
         config.editable = false;
         config.outputs = outputs.map(o => {
           return {
             to: scriptToAsm(o.script),
-            amount: o.amount || 0.00000000000000000001, // workaround for a bug.
+            amount: o.amount.toString(),
             currency: o.currency
           };
         });
@@ -290,10 +296,10 @@
       moneyButton.render(container, config);
     }
 
-    function makeBitBtn(outputs) {
+    function makeBitBtn(outputs, editable) {
       var container = $("#bitbtnContainer");
 
-      if (outputs.length == 1) {
+      if (editable && outputs.length == 1) {
         var innerContainer = $("<div>").attr("id", "bitbtn-inner-container");
         var amountLabel = $("<label>")
           .attr("for", "bitbtn-amount")
