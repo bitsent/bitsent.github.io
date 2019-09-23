@@ -42,8 +42,6 @@ Alternatively you can import from **jsDelivr**
 <script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
 ```
 
-<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
-
 # Usage
 
 ```js
