@@ -42,6 +42,8 @@ Alternatively you can import from **jsDelivr**
 <script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
 ```
 
+<script src="https://cdn.jsdelivr.net/npm/bitbtn@latest/src/bitbtn.js"></script>
+
 # Usage
 
 ```js
@@ -58,7 +60,7 @@ btn = bitbtn.create(
 
 ### Example
 
-{%- include example-bitbtn-simple.html -%}
+{%- include /bitbtn-example/simple.html -%}
 
 # Supported Currencies
 
@@ -110,8 +112,7 @@ btn = bitbtn.create(
 
 ### Example
 
-{%- include example-bitbtn-complex.html -%}
-
+{%- include /bitbtn-example/complex.html -%}
 
 # BIP21 Usage
 
@@ -132,8 +133,7 @@ btn = bitbtn.create(
 
 ### Example
 
-{%- include example-bitbtn-bip21.html -%}
-
+{%- include /bitbtn-example/bip21.html -%}
 
 # Configuration
 
@@ -153,6 +153,8 @@ btn = bitbtn.create(
 | outputs | Array |  | An array of outputs objects (explained bellow). |
 | paymentUrl | URL | https://api.bitsent.net/payments/pay | A url of the recipient of the BIP-270 payment. |
 | onError | Callback | empty callback | This method will be called if something goes wrong. |
+| backgroundColor | string | | A valid CSS color to be used as a background for the button |
+| textColor | string | | A valid CSS color to be used for the text of the button |
 | **Debug** |
 | debug | Boolean | false | A setting used when debugging the button. |
 | **Not Implemented** |
@@ -177,7 +179,23 @@ Their types, default values and descriptions were already explained above.
 
 # Customization
 
-You can change how the button looks, by including a CSS file with the right ID.
+You can change how the button looks by setting the properties for background color and text color.
+
+```js
+    btn = bitbtn.create(
+        document.getElementById("location-for-the-bitcoin-button"),
+        {
+            address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+            amount: 1.247,
+            currency: "USD",
+            backgroundColor: "#7070ff",
+            textColor: "white",
+        });
+```
+
+{%- include /bitbtn-example/color-demo.html -%}
+
+You can also make more complex changes by including a CSS file with the right ID.
 
 ```html
     <link rel="stylesheet" href="custom-bitbtn-style.css" id="bitbtn-css">

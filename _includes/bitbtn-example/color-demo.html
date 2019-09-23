@@ -1,0 +1,27 @@
+
+<div>
+    Default:
+    <div id="btn-default-colors"></div>
+    Changed:
+    <div id="btn-changed-colors"></div>
+
+    <script>
+        btn = bitbtn.create(
+            document.getElementById("btn-default-colors"),
+            {
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 1.247,
+                currency: "USD",
+            });
+
+        btn = bitbtn.create(
+            document.getElementById("btn-changed-colors"),
+            {
+                address: "1CiesvEUNg9sVm8ekhMrGyATvEnH5YU9wh",
+                amount: 1.247,
+                currency: "USD",
+                backgroundColor: "#7070ff",
+                textColor: "white",
+            });
+    </script>
+</div>
