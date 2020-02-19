@@ -43,9 +43,6 @@ project-links:
   - href: /bkitten.html
     title-html: B-Kitten
     description-html: Upload big files with the BCAT protocol
-  - href: /link.html
-    title-html: LINK
-    description-html: Send encripted immutable files that open with 1 click of a link
 - group-name: BitBtn
   links:
   - href: /bitbtn.html
