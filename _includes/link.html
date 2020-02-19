@@ -9,7 +9,19 @@
     Nobody else should be able to see your data.
   </p>
 
+  <style>
+    .hide{display:none;}
+    .center{text-align:center;}
+  </style>
   <div id="wrapper">
+    <div class="center">
+      Warning:<br/>
+      This tool was discontinued. Use at your own risk. <br\>
+      Click <button onclick="document.getElementById('upload').classList.toggle('hide')">
+        this button
+      </button> to use the upload tool at your own risk.
+      <br/>
+    </div>
     <div id="upload">
       <h1>Upload Files</h1>
       <span>Upload files to the page (where they get encrypted) and send them to the blockchain. (max: 100
