@@ -19,14 +19,13 @@
   }
 
   .button-container * {
+    margin: 1rem;
     margin-top: 0;
   }
   .button-container *.buttonArea {
-    margin: 0 35%;
-    margin: 1rem;
     margin-top: 1rem;
   }
-
+  
   #uriWarningMessage {
     color: red;
     font-weight: bold;
@@ -304,7 +303,7 @@
         var innerContainer = $("<div>").attr("id", "bitbtn-inner-container");
         var amountLabel = $("<label>")
           .attr("for", "bitbtn-amount")
-          .append("Amount:");
+          .append("Amount: ");
         var amountInput = $("<input>")
           .attr("id", "bitbtn-amount")
           .attr("type", "number")
