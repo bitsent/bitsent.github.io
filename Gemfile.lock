@@ -249,7 +249,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
-  github-pages (= 193)
+  github-pages
   jekyll-paginate
   tzinfo-data
 
