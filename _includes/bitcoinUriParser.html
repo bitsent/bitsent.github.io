@@ -249,7 +249,7 @@
         onError: arg => console.error("payment error", arg)
       };
       if (editable && outputs.length === 1) {
-        config.editable = false;
+        config.editable = editable;
         config.to = scriptToAsm(outputs[0].script);
         config.amount = outputs[0].amount.toString();
         config.currency = outputs[0].currency;
@@ -276,7 +276,7 @@
         onError: arg => console.error("payment error", arg)
       };
       if (editable && outputs.length === 1) {
-        config.editable = false;
+        config.editable = editable;
         config.to = scriptToAsm(outputs[0].script);
         config.amount = outputs[0].amount.toString();
         config.currency = outputs[0].currency;
