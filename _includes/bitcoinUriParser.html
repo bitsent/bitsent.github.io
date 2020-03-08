@@ -11,15 +11,20 @@
   }
 
   .button-container {
-    background-color: ghostwhite;
+    background-color: darkseagreen;
     border: 1px solid lightgrey;
     padding: 10px;
     margin: 5px;
     min-height: 70px;
   }
 
-  .button-container * {
+  .button-container .buttonArea {
     text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  .button-container * {
+    margin-bottom: 1rem;
   }
 
   #uriWarningMessage {
@@ -50,19 +55,19 @@
 
 <div class="center-text" class="buttons-wrapper">
   <div class="button-container">
-    <div id="moneybuttonContainer">
+    <div class="buttonArea" id="moneybuttonContainer">
       <br />
       Loading MoneyButton...
     </div>
   </div>
   <div class="button-container">
-    <div id="relayoneContainer">
+    <div class="buttonArea" id="relayoneContainer">
       <br />
       Loading Relay One...
     </div>
   </div>
   <div class="button-container">
-    <div id="bitbtnContainer">
+    <div class="buttonArea" id="bitbtnContainer">
       <br />
       Loading BitBtn...
     </div>
