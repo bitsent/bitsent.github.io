@@ -139,8 +139,8 @@
       var outs = [
         {
           script: bitbtn.scripter.p2pkh(bPath),
-          amount: parseFloat(bParams.get("amount") || 0.05),
-          currency: "BSV"
+          amount: parseFloat(bParams.get("amount") || 10),
+          currency: parseFloat(bParams.get("amount") ? "BSV" : "USD")
         }
       ];
       editable = !bParams.get("amount");
