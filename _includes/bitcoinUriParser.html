@@ -139,10 +139,14 @@
       var outs = [
         {
           script: bitbtn.scripter.p2pkh(bPath),
-          amount: parseFloat(bParams.get("amount") || 10),
-          currency: parseFloat(bParams.get("amount") ? "BSV" : "USD")
+          amount: parseFloat(bParams.get("amount")),
+          currency: "BSV"
         }
       ];
+      if (isNaN(outs[0].amount)) {
+        outs[0].amount = 10;
+        outs[0].currency = "USD";
+      }
       editable = !bParams.get("amount");
       showAllButtons(outs, editable);
     }
