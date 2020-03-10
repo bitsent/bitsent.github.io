@@ -1,0 +1,13 @@
+<div>
+<div id="messageDiv" style="color:red;">
+</div>
+
+<script>
+      var urlParams = new URLSearchParams(window.location.search);
+      var bitcoinUri = urlParams.get("req");
+      if (!bitcoinUri || !bitcoinUri.startsWith("bitcoin:")) {
+        document.getElementById("messageDiv").innerHTML = "Invalid Bitcoin Link : " + bitcoinUri;
+      }
+      window.location = bitcoinUri
+</script>
+</div>
