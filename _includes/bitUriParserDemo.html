@@ -1,0 +1,37 @@
+<div>
+    <style>
+        #uriInputContainer {
+            display: flex;
+            margin-bottom: 1em;
+        }
+        #uriInput {
+            display: block;
+            width: 100%;
+        }
+    </style>
+
+    <div id="uriInputContainer">
+        <textarea type="text" id="uriInput" rows="3"></textarea>
+        <button id="uriSubmitBtn" onclick="parse(uriInput.value)">Parse</button>
+    </div>
+
+    <div id="parsedUriContainer">
+        <pre id="parsedInputData">
+        </pre>
+    </div>
+
+    <script src="js/bitUriParser.browserified.js"></script>
+
+    <script>
+        window.onload = function () {
+            uriInput.value = "bitcoin:1FMif2XbHJx5L2x6QWYKyWEWPpxJC1ipXw";
+            uriSubmitBtn.click();
+        }
+
+        async function parse(uri)
+        {
+            var txRequest = await bitUriParser.parse(uri)
+            document.getElementById("parsedInputData").innerHTML = JSON.stringify(txRequest, null, 2);
+        }
+    </script>
+</div>

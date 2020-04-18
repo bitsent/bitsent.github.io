@@ -35,6 +35,17 @@ description: Bitcoin Tools
 #     - PipeCash: "http://pipe.cash/"
 
 project-links:
+- group-name: Dev Tools
+  links:
+  - href: /p2pPaymentApi.html
+    title-html: Payment API
+    description-html: P2P made easy (BIP270)
+  - href: /bitUriParser.html
+    title-html: Bit URI Parser
+    description-html: Parse Bitcoin Links
+  - href: /decoderawtx.html
+    title-html: Decode Raw Tx
+    description-html: Decode a Raw Bitcoin Transaction
 - group-name: OP_RETURN
   links:
   - href: /writer.html

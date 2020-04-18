@@ -1,7 +1,6 @@
 FROM jekyll/jekyll
 
-COPY Gemfile .
-COPY Gemfile.lock .
+COPY / .
 
 RUN bundle install --quiet --clean
 

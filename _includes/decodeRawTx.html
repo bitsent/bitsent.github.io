@@ -1,0 +1,67 @@
+<div>
+    <style>
+        #txInputContainer {
+            background-color: gainsboro;
+            padding: 2em;
+            display: flex;
+        }
+
+        #txInput {
+            display: block;
+            width: 100%;
+            background-color: white;
+            border: 1px solid black;
+            height: 2em;
+        }
+
+        #decodeBtn {
+            background-color: lightgreen;
+            border: 1px solid black;
+            margin-left: 1em;
+            border-radius: 0.5em;
+            font-weight: bold;
+        }
+
+        #jsonDisplays {
+            width: 100%;
+        }
+
+        .jsonContainer pre {
+            overflow: scroll;
+            max-height: 50vh;
+        }
+    </style>
+
+    <script type="text/javascript" src="js/bsv.js"></script>
+    <script type="text/javascript" src="js/txo.browserified.min.js"></script>
+
+    <div id="txInputContainer">
+        <input type="text" id="txInput">
+        <button id="decodeBtn" onclick="decode(txInput.value)">
+            Decode
+        </button>
+    </div>
+
+    <div id="jsonDisplays">
+    </div>
+
+    <script>
+        window.onload = ()=>{
+            decodeBtn.click();
+        }
+
+        async function decode(hex) {
+            var titles = [
+                "BSV JS",
+                "TXO Format"
+            ];
+
+            document.getElementById("jsonDisplays").innerHTML = titles
+                .map((v,i)=> `<div><h1>${v}</h1><div class='jsonContainer' id="jsonContainer_${i}"></div></div>`)
+                .join("\n")
+        
+            document.getElementById("jsonContainer_0").innerHTML = "<pre>" + JSON.stringify(bsv.Transaction(hex), null, 2) + "</pre>";
+            document.getElementById("jsonContainer_1").innerHTML = "<pre>" + JSON.stringify(await txo.fromTx(hex), null, 2) + "</pre>";
+        }
+    </script>
+</div>
