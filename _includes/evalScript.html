@@ -178,14 +178,22 @@
         return (
           `<h4>OP_RETURN Data</h4>` +
           `<ol class='noIndent'>` +
-          top5.map((i) => `<li>${JSON.stringify(i)}</li>`).join("") +
+          top5.map((i) => `<li>${i.toString("hex")}</li>`).join("") +
           `</ol>` +
           (opReturn.length > 5 ? `and ${opReturn.length - 5} others...` : "")
         );
       }
 
       function getBlocksTooltip(blocks) {
-        return `<h4>${blocks.length} Active Blocks</h4>`; // TODO: Write
+        const top5 =
+          blocks.length > 5 ? blocks.slice(blocks.length - 5) : blocks;
+        return (
+          `<h4>${blocks.length} Active Blocks</h4>` +
+          `<ol class='noIndent'>` +
+          top5.map((i) => `<li>${i.name}</li>`).join("") +
+          `</ol>` +
+          (blocks.length > 5 ? `and ${blocks.length - 5} others...` : "")
+        );
       }
     </script>
   </div>
