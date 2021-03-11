@@ -1,0 +1,192 @@
+<div>
+  <link rel="stylesheet" href="/css/bootstrap.min.css" />
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/jquery-1.11.2.min.js"></script>
+
+  <script src="/js/bitcoinScriptEval.js"></script>
+
+  <style>
+    #evalEditor,
+    #evalSummary {
+      resize: none;
+      display: inline-block;
+      height: 15em;
+    }
+
+    #evalEditor {
+      color: white;
+      background-color: black;
+      width: 69%;
+    }
+
+    #evalSummary {
+      border: none;
+      background-color: transparent;
+      overflow: hidden;
+      width: 29%;
+    }
+
+    #evalSummary .ctxItem {
+      display: inline-block;
+      padding-left: 1em;
+      padding-right: 1em;
+      background-color: gray;
+      color: white;
+      border-radius: 1em;
+    }
+    #evalSummary .ctxItem.endMessage {
+      background-color: darkred;
+    }
+    #evalSummary .ctxItem.stack {
+      background-color: darkblue;
+    }
+    #evalSummary .ctxItem.altStack {
+      background-color: rgb(0, 75, 75);
+    }
+    #evalSummary .ctxItem.opReturn {
+      background-color: darkgreen;
+    }
+    #evalSummary .ctxItem.blocks {
+      background-color: purple;
+    }
+
+    .noIndent {
+      padding: 0;
+    }
+  </style>
+  <div>
+    <div class="row">
+      <textarea class="col-6-sm" name="evalEditor" id="evalEditor"></textarea>
+      <div class="col-6-sm" name="evalSummary" id="evalSummary" disabled></div>
+    </div>
+
+    <script>
+      const evalEditor = $("#evalEditor");
+      const evalSummary = $("#evalSummary");
+
+      evalEditor.on("input", onChange);
+      evalEditor.on("scroll", onScroll);
+
+      function onScroll() {
+        evalSummary[0].scrollTop = evalEditor[0].scrollTop;
+      }
+
+      async function onChange() {
+        const lines = evalEditor
+          .val()
+          .split("\n")
+          .map((i) => i.trim());
+
+        try {
+          const contexts = await evaluateScript(lines);
+          const summaryHtml = contexts.map(contextToHtml).join("<br/>\n");
+          evalSummary.empty().append(summaryHtml);
+          $(".ctxItem").tooltip();
+          onScroll();
+        } catch (error) {
+          const errHtml = `<div class="compileError">${error.message}<br>${error.stack}</div>`;
+          evalSummary.empty().append(errHtml);
+        }
+      }
+
+      function getInitialContext() {
+        return {};
+      }
+
+      async function evaluateScript(lines) {
+        const contexts = [];
+        let prevContext = getInitialContext();
+        for (let i = 0; i < lines.length; i++) {
+          if (!lines[i]) {
+            contexts.push(undefined);
+            continue;
+          }
+          prevContext = await window.bitcoinScriptEval(
+            lines[i],
+            "asm",
+            prevContext
+          );
+          contexts.push(prevContext);
+        }
+        return contexts;
+      }
+
+      function contextToHtml(ctx) {
+        console.log(ctx);
+        let result = "";
+        if (!ctx) return "...";
+        if (ctx.endMessage) {
+          const tooltip = getEndMessageTooltip(ctx.endMessage);
+          result +=
+            `<div class="endMessage ctxItem" data-toggle="tooltip" data-placement="bottom" data-html="true" ` +
+            `title="${tooltip.replace(/"/g, "'")}"` +
+            `>end</div>`;
+        }
+        if (ctx.stack && ctx.stack.length) {
+          const tooltip = getStackTooltip(ctx.stack, "Main");
+          result +=
+            `<div class="stack ctxItem" data-toggle="tooltip" data-placement="bottom" data-html="true" ` +
+            `title="${tooltip.replace(/"/g, "'")}"` +
+            `>${ctx.stack.length}</div>`;
+        }
+        if (ctx.altStack && ctx.altStack.length) {
+          const tooltip = getStackTooltip(ctx.altStack, "Alt");
+          result +=
+            `<div class="altStack ctxItem" data-toggle="tooltip" data-placement="bottom" data-html="true" ` +
+            `title="${tooltip.replace(/"/g, "'")}"` +
+            `>${ctx.altStack.length}</div>`;
+        }
+        if (ctx.opReturn && ctx.opReturn.length) {
+          const tooltip = getOpReturnTooltip(ctx.opReturn);
+          result +=
+            `<div class="opReturn ctxItem" data-toggle="tooltip" data-placement="bottom" data-html="true" ` +
+            `title="${tooltip.replace(/"/g, "'")}"` +
+            `>${ctx.opReturn.length}</div>`;
+        }
+        if (ctx.blocks && ctx.blocks.length) {
+          const tooltip = getBlocksTooltip(ctx.blocks);
+          result +=
+            `<div class="blocks ctxItem" data-toggle="tooltip" data-placement="bottom" data-html="true" ` +
+            `title="${tooltip.replace(/"/g, "'")}"` +
+            `>${ctx.blocks.length}</div>`;
+        }
+        return result || "...";
+      }
+
+      function getEndMessageTooltip(endMessage) {
+        return `<h4>${endMessage}</h4>`; // TODO: Write
+      }
+
+      function getStackTooltip(stack, stackType) {
+        const top5 = stack.length > 5 ? stack.slice(stack.length - 5) : stack;
+        return (
+          `<h4>${stackType} Stack</h4>` +
+          `<ol class='noIndent'>` +
+          top5
+            .reverse()
+            .map((i) => `<li>${i.toString("hex")}</li>`)
+            .join("") +
+          `</ol>` +
+          (stack.length > 5 ? `and ${stack.length - 5} others...` : "")
+        );
+      }
+
+      function getOpReturnTooltip(opReturn) {
+        const top5 =
+          opReturn.length > 5 ? opReturn.slice(opReturn.length - 5) : opReturn;
+        return (
+          `<h4>OP_RETURN Data</h4>` +
+          `<ol class='noIndent'>` +
+          top5.map((i) => `<li>${JSON.stringify(i)}</li>`).join("") +
+          `</ol>` +
+          (opReturn.length > 5 ? `and ${opReturn.length - 5} others...` : "")
+        );
+      }
+
+      function getBlocksTooltip(blocks) {
+        return `<h4>${blocks.length} Active Blocks</h4>`; // TODO: Write
+      }
+    </script>
+  </div>
+</div>

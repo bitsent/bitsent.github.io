@@ -37,6 +37,9 @@ description: Bitcoin Tools
 project-links:
 - group-name: Dev Tools
   links:
+  - href: /evalScript.html
+    title-html: Script Evaluator
+    description-html: Write and Execute Bitcoin Scripts
   - href: /p2pPaymentApi.html
     title-html: Payment API
     description-html: P2P made easy (BIP270)
