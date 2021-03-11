@@ -91,7 +91,7 @@
       }
 
       function getInitialContext() {
-        return {};
+        return { sigsAlwaysPass: true };
       }
 
       async function evaluateScript(lines) {
