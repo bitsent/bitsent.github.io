@@ -85,7 +85,7 @@
           $(".ctxItem").tooltip();
           onScroll();
         } catch (error) {
-          const errHtml = `<div class="compileError">${error.message}<br>${error.stack}</div>`;
+          const errHtml = `<div class="compileError">${error.message}</div>`;
           evalSummary.empty().append(errHtml);
         }
       }
